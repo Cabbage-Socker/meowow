@@ -1,0 +1,960 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#176b45">
+  <meta name="description" content="哇哇喵：科学养猫与流浪猫救助知识库。">
+  <title>哇哇喵 · 猫咪科养与救助知识库</title>
+
+  <style>
+    :root {
+      --green-900: #174b35;
+      --green-800: #176b45;
+      --green-700: #218354;
+      --green-600: #399968;
+      --green-300: #b7dfc6;
+      --green-200: #d7edde;
+      --green-100: #edf7f0;
+      --green-50: #f7fbf8;
+
+      --white: #ffffff;
+      --black: #222222;
+      --text-muted: #444444;
+
+      --sidebar-width: 272px;
+      --header-height: 58px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 80px;
+    }
+
+    body {
+      margin: 0;
+      color: var(--black);
+      background: var(--white);
+      font-family:
+        -apple-system, BlinkMacSystemFont, "Segoe UI",
+        "PingFang SC", "Microsoft YaHei", sans-serif;
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    a {
+      color: var(--green-800);
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: var(--green-600);
+      text-decoration: underline;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      color: inherit;
+    }
+
+    /* 顶部导航 */
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: var(--header-height);
+      padding: 0 28px;
+      background: var(--white);
+      border-bottom: 1px solid var(--green-200);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--green-900);
+      font-size: 21px;
+      font-weight: 750;
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
+
+    .brand:hover {
+      color: var(--green-800);
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 30px;
+      height: 30px;
+      place-items: center;
+      color: var(--white);
+      background: var(--green-800);
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    .brand-subtitle {
+      margin-left: 2px;
+      color: var(--green-700);
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .header-agent {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 12px;
+      color: var(--white);
+      background: var(--green-800);
+      border: 1px solid var(--green-800);
+      border-radius: 5px;
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .header-agent:hover {
+      color: var(--white);
+      background: var(--green-700);
+      text-decoration: none;
+    }
+
+    .menu-toggle {
+      display: none;
+      padding: 5px 10px;
+      color: var(--green-800);
+      background: var(--green-100);
+      border: 1px solid var(--green-200);
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    /* 页面整体布局 */
+
+    .layout {
+      display: grid;
+      grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+      min-height: calc(100vh - var(--header-height));
+    }
+
+    /* 左侧目录 */
+
+    .sidebar {
+      position: sticky;
+      top: var(--header-height);
+      align-self: start;
+      height: calc(100vh - var(--header-height));
+      overflow-y: auto;
+      padding: 20px 15px 28px 18px;
+      background: var(--green-50);
+      border-right: 1px solid var(--green-200);
+    }
+
+    .sidebar-label {
+      margin: 0 0 10px 8px;
+      color: var(--green-700);
+      font-size: 12px;
+      font-weight: 750;
+      letter-spacing: 1px;
+    }
+
+    .search-box {
+      margin: 0 0 12px;
+    }
+
+    .search-box input {
+      display: block;
+      width: 100%;
+      padding: 9px 11px;
+      color: var(--black);
+      background: var(--white);
+      border: 1px solid var(--green-300);
+      border-radius: 5px;
+      outline: none;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .search-box input:focus {
+      border-color: var(--green-700);
+      box-shadow: 0 0 0 2px var(--green-100);
+    }
+
+    .search-box input::placeholder {
+      color: var(--text-muted);
+    }
+
+    /* 内容搜索入口：与搜索目录输入框同宽 */
+
+    .content-search-box {
+      margin-bottom: 20px;
+    }
+
+    .content-search-link {
+      display: block;
+      width: 100%;
+      padding: 9px 11px;
+      color: var(--green-800);
+      background: var(--white);
+      border: 1px solid var(--green-300);
+      border-radius: 5px;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .content-search-link:hover {
+      color: var(--green-900);
+      background: var(--green-100);
+      border-color: var(--green-700);
+      text-decoration: none;
+    }
+
+    /* 树形目录 */
+
+    .tree,
+    .tree ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .tree-group {
+      margin: 2px 0;
+    }
+
+    .tree-heading {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      width: 100%;
+      padding: 6px 8px;
+      color: var(--green-900);
+      background: transparent;
+      border: 0;
+      border-radius: 4px;
+      text-align: left;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.65;
+      cursor: pointer;
+    }
+
+    .tree-heading:hover,
+    .tree-link:hover {
+      background: var(--green-100);
+      text-decoration: none;
+    }
+
+    .tree-heading .arrow {
+      display: inline-block;
+      flex: 0 0 13px;
+      width: 13px;
+      color: var(--green-700);
+      font-size: 11px;
+      transition: transform .15s ease;
+    }
+
+    .tree-group:not(.open) > button.tree-heading .arrow {
+      transform: rotate(-90deg);
+    }
+
+    .tree-children {
+      margin: 2px 0 5px 9px !important;
+      padding-left: 9px !important;
+      border-left: 1px solid var(--green-200);
+    }
+
+    .tree-group:not(.open) > .tree-children {
+      display: none;
+    }
+
+    .tree-link {
+      display: block;
+      padding: 4px 8px;
+      color: var(--green-800);
+      border-radius: 4px;
+      font-size: 13px;
+      line-height: 1.65;
+      overflow-wrap: anywhere;
+    }
+
+    .tree-link.active {
+      color: var(--green-900);
+      background: var(--green-200);
+      font-weight: 700;
+    }
+
+    .tree-empty {
+      display: none;
+      padding: 12px 8px;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .search-hidden {
+      display: none !important;
+    }
+
+    /* 正文 */
+
+    .main {
+      min-width: 0;
+      padding: 46px clamp(24px, 6vw, 88px) 30px;
+    }
+
+    .article {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .breadcrumb {
+      margin-bottom: 18px;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .breadcrumb a {
+      color: var(--green-800);
+    }
+
+    h1,
+    h2,
+    h3 {
+      color: var(--black);
+      line-height: 1.4;
+    }
+
+    h1 {
+      margin: 0 0 16px;
+      font-size: clamp(28px, 3.5vw, 38px);
+      letter-spacing: -.5px;
+    }
+
+    .intro {
+      max-width: 720px;
+      margin: 0 0 28px;
+      color: var(--black);
+      font-size: 16px;
+      line-height: 2;
+    }
+
+    .rule {
+      height: 1px;
+      margin: 28px 0;
+      background: var(--green-200);
+      border: 0;
+    }
+
+    h2 {
+      margin: 30px 0 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--green-200);
+      font-size: 23px;
+    }
+
+    h3 {
+      margin: 22px 0 8px;
+      font-size: 17px;
+    }
+
+    p {
+      margin: 10px 0 16px;
+      color: var(--black);
+    }
+
+    .principles {
+      margin: 24px 0;
+      padding: 16px 20px;
+      background: var(--green-50);
+      border-left: 3px solid var(--green-600);
+    }
+
+    .principles p {
+      margin: 4px 0;
+      color: var(--black);
+    }
+
+    .start-list {
+      margin: 12px 0 22px;
+      padding-left: 23px;
+      color: var(--black);
+    }
+
+    .start-list li {
+      margin: 6px 0;
+      padding-left: 3px;
+    }
+
+    .start-list li::marker {
+      color: var(--green-600);
+    }
+
+    .assistant-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+      padding: 9px 15px;
+      color: var(--white);
+      background: var(--green-800);
+      border: 1px solid var(--green-800);
+      border-radius: 5px;
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .assistant-link:hover {
+      color: var(--white);
+      background: var(--green-700);
+      text-decoration: none;
+    }
+
+    .site-footer {
+      max-width: 900px;
+      margin: 55px auto 0;
+      padding-top: 16px;
+      color: var(--text-muted);
+      border-top: 1px solid var(--green-200);
+      font-size: 12px;
+    }
+
+    /* 手机端 */
+
+    @media (max-width: 800px) {
+      .site-header {
+        padding: 0 14px;
+      }
+
+      .brand {
+        font-size: 19px;
+      }
+
+      .brand-subtitle {
+        display: none;
+      }
+
+      .header-right {
+        gap: 9px;
+      }
+
+      .header-agent {
+        padding: 5px 8px;
+        font-size: 12px;
+      }
+
+      .menu-toggle {
+        display: inline-block;
+      }
+
+      .layout {
+        display: block;
+      }
+
+      .sidebar {
+        position: fixed;
+        top: var(--header-height);
+        bottom: 0;
+        left: 0;
+        z-index: 25;
+        width: min(310px, 86vw);
+        height: auto;
+        transform: translateX(-105%);
+        transition: transform .2s ease;
+      }
+
+      .sidebar.visible {
+        transform: translateX(0);
+        box-shadow: 8px 0 24px var(--green-200);
+      }
+
+      .main {
+        padding: 30px 21px 24px;
+      }
+
+      h1 {
+        font-size: 29px;
+      }
+
+      h2 {
+        font-size: 21px;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .header-right {
+        gap: 7px;
+      }
+
+      .header-agent {
+        padding: 4px 7px;
+        font-size: 11px;
+      }
+
+      .menu-toggle {
+        padding: 4px 7px;
+        font-size: 12px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 顶部导航 -->
+  <header class="site-header">
+    <a class="brand" href="./" aria-label="喵知识库首页">
+      <span class="brand-mark">袜</span>
+      <span>哇哇喵<span class="brand-subtitle"> · 猫咪科养与救助知识库</span></span>
+    </a>
+
+    <nav class="header-right" aria-label="顶部导航">
+      <a class="header-agent" href="./assistant/">
+        养猫助手 Agent ↗
+      </a>
+
+      <button
+        class="menu-toggle"
+        id="menuToggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="sidebar"
+      >目录</button>
+    </nav>
+  </header>
+
+  <div class="layout">
+    <!-- 左侧目录 -->
+    <aside class="sidebar" id="sidebar">
+      <p class="sidebar-label">目录 NAVIGATION</p>
+
+      <!-- 目录搜索 -->
+      <div class="search-box">
+        <input
+          id="navSearch"
+          type="search"
+          placeholder="搜索目录..."
+          aria-label="搜索知识库目录"
+        >
+      </div>
+
+      <!-- 内容搜索：位于目录搜索下方 -->
+      <div class="search-box content-search-box">
+        <a class="content-search-link" href="./search/">
+          内容搜索
+        </a>
+      </div>
+
+      <nav aria-label="知识库目录">
+        <ul class="tree" id="navTree">
+
+          <!-- 科学养猫 -->
+          <li class="tree-group open">
+            <button class="tree-heading" type="button" aria-expanded="true">
+              <span class="arrow">▼</span>
+              <span>科学养猫</span>
+            </button>
+
+            <ul class="tree-children">
+
+              <!-- 新手养猫 SOP -->
+              <li class="tree-group open">
+                <button class="tree-heading" type="button" aria-expanded="true">
+                  <span class="arrow">▼</span>
+                  <span>新手养猫 SOP</span>
+                </button>
+
+                <ul class="tree-children">
+                  <li><a class="tree-link" href="./science/first-cat/self-assessment/">养猫前的自我评估</a></li>
+                  <li><a class="tree-link" href="./science/first-cat/environment/">养猫用品与居家环境</a></li>
+                  <li><a class="tree-link" href="./science/first-cat/first-days/">接猫、到家与适应新环境</a></li>
+                </ul>
+              </li>
+
+              <!-- 猫饮食与营养 -->
+              <li class="tree-group">
+                <button class="tree-heading" type="button" aria-expanded="false">
+                  <span class="arrow">▼</span>
+                  <span>猫饮食与营养</span>
+                </button>
+
+                <ul class="tree-children">
+                  <li><a class="tree-link" href="./science/nutrition/physiology/">猫的生理特点与营养需求</a></li>
+                  <li><a class="tree-link" href="./science/nutrition/nutrients/">蛋白质、脂肪、碳水、维生素、矿物质与水</a></li>
+                  <li><a class="tree-link" href="./science/nutrition/life-stages/">幼猫、成年猫、老年猫的营养差异</a></li>
+                  <li><a class="tree-link" href="./science/nutrition/feeding-types/">干粮、湿粮、鲜食与喂养方式</a></li>
+                  <li><a class="tree-link" href="./science/nutrition/feeding-management/">饮水、喂食量、体重管理与特殊需求</a></li>
+                </ul>
+              </li>
+
+              <!-- 猫粮选择与食品评估 -->
+              <li class="tree-group">
+                <button class="tree-heading" type="button" aria-expanded="false">
+                  <span class="arrow">▼</span>
+                  <span>猫粮选择与食品评估</span>
+                </button>
+
+                <ul class="tree-children">
+                  <li><a class="tree-link" href="./science/cat-food/classification/">猫粮分类与营养标准</a></li>
+                  <li><a class="tree-link" href="./science/cat-food/labels/">成分表、营养保证值与第三方评测值</a></li>
+                  <li><a class="tree-link" href="./science/cat-food/compare/">如何比较不同猫粮</a></li>
+                  <li><a class="tree-link" href="./science/cat-food/marketing/">猫粮品牌宣传与常见误区</a></li>
+                  <li><a class="tree-link" href="./science/cat-food/switching/">换粮、试喂与适口性观察</a></li>
+                </ul>
+              </li>
+
+              <!-- 猫行为学与行为纠正 -->
+              <li class="tree-group">
+                <button class="tree-heading" type="button" aria-expanded="false">
+                  <span class="arrow">▼</span>
+                  <span>猫行为学与行为纠正</span>
+                </button>
+
+                <ul class="tree-children">
+                  <li><a class="tree-link" href="./science/behavior/nature/">猫的天性、感知与交流方式</a></li>
+                  <li><a class="tree-link" href="./science/behavior/emotions/">猫的情绪、压力与环境需求</a></li>
+                  <li><a class="tree-link" href="./science/behavior/house-soiling/">乱尿、抓家具、夜间吵闹</a></li>
+                  <li><a class="tree-link" href="./science/behavior/aggression/">咬人、攻击、过度叫唤</a></li>
+                  <li><a class="tree-link" href="./science/behavior/training/">行为训练、环境改善与多猫相处</a></li>
+                </ul>
+              </li>
+
+              <!-- 健康管理与日常护理 -->
+              <li class="tree-group">
+                <button class="tree-heading" type="button" aria-expanded="false">
+                  <span class="arrow">▼</span>
+                  <span>健康管理与日常护理</span>
+                </button>
+
+                <ul class="tree-children">
+                  <li><a class="tree-link" href="./science/health/vaccination/">疫苗、驱虫与体检</a></li>
+                  <li><a class="tree-link" href="./science/health/neutering/">绝育</a></li>
+                  <li><a class="tree-link" href="./science/health/grooming/">口腔、眼睛、耳朵、皮肤与爪部护理</a></li>
+                  <li><a class="tree-link" href="./science/health/body-condition/">猫咪体重与体况</a></li>
+                  <li><a class="tree-link" href="./science/health/diseases/">常见疾病与症状</a></li>
+                  <li><a class="tree-link" href="./science/health/first-aid/">居家急救知识与危险信号</a></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+
+          <!-- 流浪猫救助 -->
+          <li class="tree-group open">
+            <button class="tree-heading" type="button" aria-expanded="true">
+              <span class="arrow">▼</span>
+              <span>流浪猫救助</span>
+            </button>
+
+            <ul class="tree-children">
+
+              <!-- 幼猫照护：与同级目录标题统一格式 -->
+              <li class="tree-group">
+                <a class="tree-heading" href="./rescue/kittens/">
+                  <span class="arrow">›</span>
+                  <span>幼猫照护</span>
+                </a>
+              </li>
+
+              <!-- TNR 基本常识 -->
+              <li class="tree-group">
+                <button class="tree-heading" type="button" aria-expanded="false">
+                  <span class="arrow">▼</span>
+                  <span>TNR 基本常识</span>
+                </button>
+
+                <ul class="tree-children">
+                  <li class="tree-group">
+                    <button class="tree-heading" type="button" aria-expanded="false">
+                      <span class="arrow">▼</span>
+                      <span>抓捕工具的使用</span>
+                    </button>
+
+                    <ul class="tree-children">
+                      <li><a class="tree-link" href="./rescue/tnr/traps/">诱捕笼</a></li>
+                      <li><a class="tree-link" href="./rescue/tnr/nets/">抄网</a></li>
+                      <li><a class="tree-link" href="./rescue/tnr/handling/">徒手</a></li>
+                    </ul>
+                  </li>
+
+                  <li><a class="tree-link" href="./rescue/tnr/transport/">如何安全转运</a></li>
+                </ul>
+              </li>
+
+              <!-- 常见流浪猫疾病处理方式 -->
+              <li class="tree-group">
+                <button class="tree-heading" type="button" aria-expanded="false">
+                  <span class="arrow">▼</span>
+                  <span>常见流浪猫疾病处理方式</span>
+                </button>
+
+                <ul class="tree-children">
+                  <li><a class="tree-link" href="./rescue/health/stomatitis/">口炎</a></li>
+                  <li><a class="tree-link" href="./rescue/health/kidney-disease/">肾病</a></li>
+                  <li><a class="tree-link" href="./rescue/health/skin-disease/">皮肤病</a></li>
+                  <li><a class="tree-link" href="./rescue/health/injuries/">外伤</a></li>
+                </ul>
+              </li>
+
+              <!-- 找领养 -->
+              <li class="tree-group">
+                <button class="tree-heading" type="button" aria-expanded="false">
+                  <span class="arrow">▼</span>
+                  <span>找领养</span>
+                </button>
+
+                <ul class="tree-children">
+                  <li><a class="tree-link" href="./rescue/adoption/eligibility/">什么样的猫可以找领养</a></li>
+                  <li><a class="tree-link" href="./rescue/adoption/channels/">找领养渠道推荐</a></li>
+                  <li><a class="tree-link" href="./rescue/adoption/screening/">领养人审核与协议</a></li>
+                  <li><a class="tree-link" href="./rescue/adoption/follow-up/">领养后回访</a></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+
+          <!-- 养猫助手 Agent -->
+          <li class="tree-group">
+            <a class="tree-heading" href="./assistant/">
+              <span class="arrow">›</span>
+              <span>养猫助手 Agent</span>
+            </a>
+          </li>
+
+        </ul>
+
+        <p class="tree-empty" id="treeEmpty">
+          没有找到匹配的目录。
+        </p>
+      </nav>
+    </aside>
+
+    <!-- 正文区域 -->
+    <main class="main">
+      <article class="article">
+        <div class="breadcrumb">
+          <a href="./">首页</a> / 简介
+        </div>
+
+        <h1>欢迎来到「哇哇喵」</h1>
+
+        <p class="intro">
+          这是一个关于小猫咪！的知识库。
+          我适不适合养猫？猫粮怎么选？猫咪的行为该怎么理解？猫身体出现异常时该怎么办？流浪猫遇到困难时又能做些什么？
+          笔者想把这些问题涉及的资料和经验整理下来，方便自己查阅，也给其他喜欢小猫咪！的人提供一些参考。
+          关于流浪猫救助的内容可供个人救助人或者我们学生社团的新成员参考（笔者懒得一个一个培训了）。
+          本站的「科学养猫」栏目包含养猫入门、饮食营养、猫行为、健康护理。
+          本站的「流浪猫救助」栏目包含TNR知识、流浪猫常见疾病和处理方法、找领养办法等。
+          文章会尽量附上资料来源，方便进一步了解和核对。
+          主要参考书籍有《犬猫营养需要》《猫病学》《猫应用行为学》和笔者&笔者的朋友们的经验等。    
+          
+        </p>
+
+        <hr class="rule">
+
+        <h2>关于本站设立的初衷</h2>
+        <p>
+          现在越来越多人开始养猫。很多人可能只是一拍脑袋，就捡了一个猫或者买了一个猫回家。到家后才发现养猫并不是给ta一碗饭一碗水就万事大吉的事情。
+          就算确实经过了深思熟虑，也可能因信息差/经验差而出问题。
+          许多人接回家后才发现发现自己过敏/小猫不够乖/经济能力不够/周围的人不接受，于是弃养；
+          许多人上网搜教程指南，只能在大量的软广中找到少量的甚至错误的干货；
+          许多人被网上的内容误导，错误地饲养和对待自己的小猫；
+          ………………
+          笔者是一位大学生，从2026.1.30开始养猫。期间踩了很多坑。上面这些问题我都碰见过。
+          （徐袜袜是一只非常可爱的小猫咪呀！）
+          笔者希望通过整理猫健康、猫行为与流浪猫救助等相关知识，
+          通过可靠资料和清晰的解释，帮助更多像那时的我一样的家长理解问题、判断风险并采取行动。
+          
+        </p>
+        <p>
+          你可以通过左侧目录按主题阅读，也可以使用目录搜索快速定位标题。
+          如需检索正文，请使用「内容搜索」。
+        </p>
+
+        <h2>从哪里开始</h2>
+        <ol class="start-list">
+          <li>初次养猫：「新手养猫 SOP」</li>
+          <li>了解喂养：「饮食与营养」。</li>
+          <li>评估猫粮：「猫粮选择与食品评估」。</li>
+          <li>解决行为问题：「猫行为学与行为纠正」。</li>
+          <li>了解健康护理：「健康管理与日常护理」。</li>
+          <li>我想参与「流浪猫救助」</li>
+        </ol>
+
+        <h2>本站原则</h2>
+        <div class="principles">
+          <p><strong>以猫为本：</strong>尊重猫的生理需求、行为特点与个体边界。</p>
+          <p><strong>负责任地行动：</strong>重视长期照护、安全、福利。</p>
+          <p><strong>领养代替购买：</strong>支持优先领养流浪猫，抵制无良猫舍。</p>
+        </div>
+
+        <h2>养猫助手 Agent</h2>
+        <p>
+          你可以通过自然语言提出养猫问题。
+          助手可以帮助检索知识库中相关资料并整理回答。
+          涉及疾病诊断、用药或紧急情况时，请及时咨询兽医。
+        </p>
+
+        <a class="assistant-link" href="./assistant/">
+          进入养猫助手 Agent →
+        </a>
+
+        <footer class="site-footer">
+          哇哇喵 · 猫咪科养与救助知识库
+        </footer>
+      </article>
+    </main>
+  </div>
+
+  <script>
+    // 展开与折叠目录
+    document.querySelectorAll(".tree-group > button.tree-heading")
+      .forEach(button => {
+        button.addEventListener("click", () => {
+          const group = button.closest(".tree-group");
+          const isOpen = group.classList.toggle("open");
+
+          button.setAttribute("aria-expanded", String(isOpen));
+        });
+      });
+
+    // 目录搜索
+    const searchInput = document.getElementById("navSearch");
+    const tree = document.getElementById("navTree");
+    const emptyMessage = document.getElementById("treeEmpty");
+
+    const allGroups = [...tree.querySelectorAll(".tree-group")];
+    const allLinks = [...tree.querySelectorAll(".tree-link, a.tree-heading")];
+    const allButtons = [...tree.querySelectorAll("button.tree-heading")];
+
+    function resetTreeSearch() {
+      allGroups.forEach(group => group.classList.remove("search-hidden"));
+      allLinks.forEach(link => link.classList.remove("search-hidden"));
+
+      allButtons.forEach(button => {
+        const group = button.closest(".tree-group");
+        button.setAttribute(
+          "aria-expanded",
+          String(group.classList.contains("open"))
+        );
+      });
+
+      emptyMessage.style.display = "none";
+    }
+
+    function revealParents(element) {
+      let parent = element.parentElement.closest(".tree-group");
+
+      while (parent) {
+        parent.classList.remove("search-hidden");
+        parent.classList.add("open");
+
+        const button = parent.querySelector(":scope > button.tree-heading");
+        if (button) {
+          button.setAttribute("aria-expanded", "true");
+        }
+
+        parent = parent.parentElement.closest(".tree-group");
+      }
+    }
+
+    searchInput.addEventListener("input", () => {
+      const keyword = searchInput.value.trim().toLowerCase();
+
+      if (!keyword) {
+        resetTreeSearch();
+        return;
+      }
+
+      allGroups.forEach(group => group.classList.add("search-hidden"));
+      allLinks.forEach(link => link.classList.add("search-hidden"));
+
+      let matchCount = 0;
+
+      // 匹配可展开的目录标题
+      allButtons.forEach(button => {
+        const label = button.textContent
+          .replace("▼", "")
+          .trim()
+          .toLowerCase();
+
+        if (label.includes(keyword)) {
+          const group = button.closest(".tree-group");
+
+          group.classList.remove("search-hidden");
+          group.classList.add("open");
+          button.setAttribute("aria-expanded", "true");
+
+          const directChildren = group.querySelectorAll(
+            ":scope > .tree-children > li"
+          );
+
+          directChildren.forEach(item => {
+            item.classList.remove("search-hidden");
+          });
+
+          revealParents(group);
+          matchCount++;
+        }
+      });
+
+      // 匹配文章链接和直接跳转的标题
+      allLinks.forEach(link => {
+        if (link.textContent.trim().toLowerCase().includes(keyword)) {
+          link.classList.remove("search-hidden");
+          revealParents(link);
+          matchCount++;
+        }
+      });
+
+      emptyMessage.style.display = matchCount ? "none" : "block";
+    });
+
+    // 手机端目录开关
+    const menuToggle = document.getElementById("menuToggle");
+    const sidebar = document.getElementById("sidebar");
+
+    menuToggle.addEventListener("click", () => {
+      const visible = sidebar.classList.toggle("visible");
+      menuToggle.setAttribute("aria-expanded", String(visible));
+    });
+
+    // 手机端点击侧栏链接后关闭目录
+    sidebar.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        sidebar.classList.remove("visible");
+        menuToggle.setAttribute("aria-expanded", "false");
+      });
+    });
+  </script>
+</body>
+</html>
